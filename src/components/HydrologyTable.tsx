@@ -10,39 +10,39 @@ import Paper from '@mui/material/Paper';
 
 import DataHour from '../interface/DataHour';
 
-export default function HydrologyTable( { data } : { data: DataHour[] } ) {
+export default function HydrologyTable({ data }: { data: DataHour[] }) {
 
-  let [rows, setRows] = useState(Array<DataHour>)
+  const [rows, setRows] = useState<DataHour[]>([]);
 
-  let getRows = () => {
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
+
+  const getRows = () => {
     if (rows.length) {
-      return (
-        rows.map((row, idx) => (
-          <TableRow
-            key={idx}
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-          >
-            <TableCell component="th" scope="row">
-              {row.Fecha}
-            </TableCell>
-            <TableCell align="center">{row.Mazar}</TableCell>
-            
-            {/* PENDIENTE: Valores a renderizar en cada celda  */}
-            
-            
-          </TableRow>
-        ))
-      )
+      return rows.map((row, idx) => (
+        <TableRow
+          key={idx}
+          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+        >
+          <TableCell component="th" scope="row">
+            {row.Fecha}
+          </TableCell>
+          <TableCell align="center">{row.Mazar}</TableCell>
+          <TableCell align="center">{row.Molino}</TableCell>
+          <TableCell align="center">{row.Sopladora}</TableCell>
+        </TableRow>
+      ));
     } else {
-      return <TableRow><TableCell>No data</TableCell></TableRow>
+      return (
+        <TableRow>
+          <TableCell colSpan={4} align="center">
+            No data
+          </TableCell>
+        </TableRow>
+      );
     }
-      
-  }
-
-  useEffect( ()=> {
-    setRows(data)
-  }, [data])
-  
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -50,11 +50,9 @@ export default function HydrologyTable( { data } : { data: DataHour[] } ) {
         <TableHead>
           <TableRow>
             <TableCell>Fecha</TableCell>
-            <TableCell align='center'>Mazar</TableCell>
-            
-            {/* PENDIENTE: Cabeceras de las columnas  */}
-            
-
+            <TableCell align="center">Mazar</TableCell>
+            <TableCell align="center">Molino</TableCell>
+            <TableCell align="center">Sopladora</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
